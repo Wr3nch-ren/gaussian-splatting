@@ -6,3 +6,9 @@ diff_rasterization/diff_rast.egg-info
 diff_rasterization/dist
 tensorboard_3d
 screenshots
+compressed
+image
+sparse
+output
+COLMAP-3.9.1-windows-cuda
+SIBR_viewers

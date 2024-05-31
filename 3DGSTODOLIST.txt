@@ -1,0 +1,9 @@
+Goal
+
+Automation Step 1 to 4
+
+Python:
+- Image Automation [Need Date TIme Renamer, Compressed file reader, Full Folder Reader] {Might try on creation time}
+- Extracting Automation (Have Script) [Need Auto Linker] {Slight Modification on Original Script to change mode}
+- Training Automation (Have Script) [Need Auto Linker]
+- One Button Picture Viewing + UI (Have Viewer) [Need UI] {Full Auto + Semi Auto}
