@@ -7,8 +7,11 @@ diff_rasterization/dist
 tensorboard_3d
 screenshots
 compressed
+input
+distorted
 image
 sparse
 output
+stereo
 COLMAP-3.9.1-windows-cuda
 SIBR_viewers

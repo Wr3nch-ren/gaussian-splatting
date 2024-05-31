@@ -20,20 +20,24 @@ def open_compressed_file_selection():
     )
     if file_path:
         extract_file(file_path)
+        
+# For directory creation
+def create_clean_dir(dir):
+    if os.path.exists(dir):
+        shutil.rmtree(dir)
+    os.makedirs(dir)
 
 # For Extract file
 def extract_file(file_path):
-    extracted_dir = fd.askdirectory(title="Select image extraction folder")
-    if extracted_dir:
-        try:
-            # Extract the archive file using patoolib
-            patoolib.extract_archive(file_path, outdir=extracted_dir)
-            convert_images_to_jpg(extracted_dir)
-            messagebox.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
-    else:
-        messagebox.showerror("Error", "No extraction folder selected.")
+    extracted_dir = "input"
+    create_clean_dir(extracted_dir)
+    try:
+        # Extract the archive file using patoolib
+        patoolib.extract_archive(file_path, outdir=extracted_dir)
+        convert_images_to_jpg(extracted_dir)
+        messagebox.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
 
 # For Image conversion
 def convert_images_to_jpg(directory):
