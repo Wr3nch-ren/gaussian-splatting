@@ -8,7 +8,7 @@ import zipfile
 import patoolib
 import shutil
 import tkinter as tk
-from tkinter import filedialog as fd, messagebox
+from tkinter import filedialog as fd
 from PIL import Image
 from pillow_heif import register_heif_opener
 
@@ -35,9 +35,9 @@ def extract_file(file_path):
         # Extract the archive file using patoolib
         patoolib.extract_archive(file_path, outdir=extracted_dir)
         convert_images_to_jpg(extracted_dir)
-        messagebox.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
+        fd.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
     except Exception as e:
-        messagebox.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
+        fd.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
 
 # For Image conversion
 def convert_images_to_jpg(directory):
