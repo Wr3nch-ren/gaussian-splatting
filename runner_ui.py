@@ -11,12 +11,10 @@ import subprocess
 
 def run_imageprocessor():
     imageprocessor_script = "./imageprocessor.py"
-    
-    # try:
-    #     result = subprocess.run(
-    #         ["python", imageprocessor_script]
-    #     )
-    pass
+    result = subprocess.run(
+        ["python", imageprocessor_script]
+    )
+    return result
 
 def is_conda_environment_active(env_name):
     return os.environ.get("CONDA_DEFAULT_ENV") == env_name
@@ -40,7 +38,7 @@ def run_convert_in_conda_env(env_name):
         print("Error executing command:")
         print(stderr.decode())
         
-def run_python_script():
+def run_convert_script():
     env_name = "gaussian_splatting"
     
     if is_conda_environment_active(env_name):
@@ -57,8 +55,16 @@ def run_python_script():
         print("Error executing command:")
         print(stderr.decode())
         
-def some_function():
-    print("Some function is running...")
-    run_python_script()
+def run_train_script():
+    pass
+
+def run_visualizer():
+    pass
+        
+def autorun():
+    run_imageprocessor()
+    run_convert_script()
+    run_train_script()
+    run_visualizer()
     
-some_function()
+autorun()
