@@ -9,6 +9,9 @@ import os
 import sys
 import subprocess
 
+env_name = "gaussian_splatting"
+training_mode = "cuda"
+
 def run_imageprocessor():
     imageprocessor_script = "./imageprocessor.py"
     result = subprocess.run(
@@ -19,34 +22,39 @@ def run_imageprocessor():
 def is_conda_environment_active(env_name):
     return os.environ.get("CONDA_DEFAULT_ENV") == env_name
 
-def run_convert_in_conda_env(env_name):
-    command = f'conda activate {env_name} && python convert.py -s .'
-    
+def run_in_conda_env(env_name, filename):
+    if filename == "convert.py":
+        command = f'conda activate {env_name} && python {filename} -s .'
+    if filename == "train.py":
+        if training_mode == "cuda":
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device cuda'
+        if training_mode == "cpu":
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device cpu'
+        else:
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w'
     ps_script = f'''
     $env:CONDA_DEFAULT_ENV = "{env_name}"
     conda activate $env:CONDA_DEFAULT_ENV
     {command}
     '''
-    
+
     process = subprocess.Popen(["powershell", "-Command", ps_script], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    
+
     if process.returncode == 0:
         print("Command executed successfully:")
         print(stdout.decode())
     else:
         print("Error executing command:")
         print(stderr.decode())
-        
+
 def run_convert_script():
-    env_name = "gaussian_splatting"
-    
     if is_conda_environment_active(env_name):
         command = [sys.executable, "convert.py", "-s", "."]
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
-        run_convert_in_conda_env(env_name)
-        
+        run_in_conda_env(env_name, "convert.py")
+
     stdout, stderr = process.communicate()
     if process.returncode == 0:
         print("Command executed successfully:")
@@ -54,17 +62,42 @@ def run_convert_script():
     else:
         print("Error executing command:")
         print(stderr.decode())
-        
+
 def run_train_script():
-    pass
+    if is_conda_environment_active(env_name):
+        if training_mode == "cuda":
+            command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cuda"]
+        if training_mode == "cpu":
+            command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cpu"]
+        else:
+            command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w"]
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        run_in_conda_env(env_name, "train.py")
+
+    stdout, stderr = process.communicate()
+    if process.returncode == 0:
+        print("Command executed successfully:")
+        print(stdout.decode())
+    else:
+        print("Error executing command:")
+        print(stderr.decode())
 
 def run_visualizer():
-    pass
-        
+    command = ["SIBR_gaussianViewer_app", "-m", "./output/"]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    if process.returncode == 0:
+        print("Command executed successfully:")
+        print(stdout.decode())
+    else:
+        print("Error executing command:")
+        print(stderr.decode())
+
 def autorun():
     run_imageprocessor()
     run_convert_script()
     run_train_script()
     run_visualizer()
-    
+
 autorun()

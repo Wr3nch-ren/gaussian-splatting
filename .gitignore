@@ -5,8 +5,9 @@ output
 build
 diff_rasterization/diff_rast.egg-info
 diff_rasterization/dist
-simple-knn/build
+simple-knn/dist
 simple-knn/simple-knn.egg-info
+submodules
 tensorboard_3d
 screenshots
 compressed
