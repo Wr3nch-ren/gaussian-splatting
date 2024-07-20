@@ -4,7 +4,6 @@
 # Detect Compressed File Type (.zip) then extract to another directory
 
 import os
-import zipfile
 import patoolib
 import shutil
 import tkinter as tk

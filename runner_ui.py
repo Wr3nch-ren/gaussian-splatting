@@ -8,9 +8,11 @@ import tkinter as tk
 import os
 import sys
 import subprocess
+import fabric
 
 env_name = "gaussian_splatting"
 training_mode = "cuda"
+local_mode = False
 
 # This function will run in local
 def run_imageprocessor():
@@ -83,8 +85,29 @@ def run_convert_script():
         print("Error executing command:")
         print(stderr.decode())
 
-# This function will run in slurm ssh
+# This function will run in cluster
 def run_train_script():
+    if not local_mode:
+        # Connect to cluster
+        
+        # Tutorial for non-local: Make a ssh.txt file with this exact pattern in your directory
+        '''
+        hostdomain
+        username
+        portnumber
+        ''' 
+        sshcontent = open('ssh.txt', 'r').readlines()
+        domain = sshcontent[0].strip()
+        username = sshcontent[1].strip()
+        port_number = sshcontent[2].strip()
+        # "fabric" will automatically read your ssh private key in your local path
+        connection = fabric.Connection(host=domain,
+                                       user=username,
+                                       port=port_number)
+        # You can bash commands for example, read file directory using:
+        # connection.run("ls -la")
+        # When everything is ended, disconnect
+        connection.close()
     if is_conda_environment_active(env_name):
         if training_mode == "cuda":
             command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cuda"]
@@ -105,7 +128,7 @@ def run_train_script():
         print(stderr.decode())
 
 # This function will run in local
-# Pending for web visualizer
+# Web Visualizer is now on hold
 def run_visualizer():
     command = ["SIBR_gaussianViewer_app", "-m", "./output/"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
