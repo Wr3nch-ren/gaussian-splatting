@@ -22,5 +22,4 @@ SIBR_viewers
 *.zip
 *.rar
 database.db
-debug.py
 ssh.txt
