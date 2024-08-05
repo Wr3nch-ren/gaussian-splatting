@@ -7,6 +7,7 @@
 import tkinter as tk
 import os
 import sys
+import glob
 import subprocess
 import fabric
 
@@ -104,8 +105,11 @@ def run_train_script():
         connection = fabric.Connection(host=domain,
                                        user=username,
                                        port=port_number)
-        # You can bash commands for example, read file directory using:
-        # connection.run("ls -la")
+        # Upload sparse file to cluster for training
+        connection.put("./sparse", "/data/home/b6410406541/")
+        # From: python train.py -s $FOLDER_PATH -, $FOLDER_PATH/output
+        # Modify for cluster
+        
         # When everything is ended, disconnect
         connection.close()
     if is_conda_environment_active(env_name):
