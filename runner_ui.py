@@ -86,6 +86,30 @@ def run_convert_script():
         print("Error executing command:")
         print(stderr.decode())
 
+# This function will handle file uploading
+def upload_directory(connection, local_dir, remote_dir):
+    def upload_recursive(local_path, remote_path):
+        # Iterate over the items in the local directory
+        for item in os.listdir(local_path):
+            local_item_path = os.path.join(local_path, item)
+            remote_item_path = os.path.join(remote_path, item).replace("\\", "/")
+            
+            if os.path.isdir(local_item_path):
+                # If it's a directory, create the directory on the remote server
+                connection.run(f"mkdir -p {remote_item_path}", hide=True)
+                
+                # Recursively upload the contents of the directory
+                upload_recursive(local_item_path, remote_item_path)
+            elif os.path.isfile(local_item_path):
+                # If it's a file, upload it to the remote server
+                connection.put(local_item_path, remote_item_path)
+            else:
+                # Handle other types of items if necessary (e.g., symbolic links)
+                pass
+    
+    # Start the recursive upload from the base local and remote directories
+    upload_recursive(local_dir, remote_dir)
+
 # This function will run in cluster
 def run_train_script():
     if not local_mode:
@@ -105,8 +129,15 @@ def run_train_script():
         connection = fabric.Connection(host=domain,
                                        user=username,
                                        port=port_number)
+        # Check if directory is exist
+        isExist = connection.run(f"test -d /data/home/{username}/gaussian-splatting/sparse && echo True || echo False")
+        # Deletes old directory if it is exist
+        if bool(isExist):
+            connection.run("rm -rf ~/gaussian-splatting/sparse")
+        # Making an empty folder
+        connection.run("mkdir ~/gaussian-splatting/sparse")
         # Upload sparse file to cluster for training
-        connection.put("./sparse", "/data/home/b6410406541/")
+        upload_directory(connection, './sparse', f'/data/home/{username}/gaussian-splatting/')
         # From: python train.py -s $FOLDER_PATH -, $FOLDER_PATH/output
         # Modify for cluster
         
