@@ -183,7 +183,7 @@ def run_train_script():
                 command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cpu"]
             else:
                 command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w"]
-            process = subprocess.Popen(command, stdout=subprocess.PIPE, stde    rr=subprocess.PIPE)
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
             run_in_conda_env(env_name, "train.py")
 
