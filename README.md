@@ -65,9 +65,21 @@ The codebase has 4 main components:
 
 The components have different requirements w.r.t. both hardware and software. They have been tested on Windows 10 and Ubuntu Linux 22.04. Instructions for setting up and running each of them are found in the sections below.
 
-## New features  [Please check regularly!]
+## NEW FEATURES !
 
-We will be adding several new features soon. In the meantime Orange has kindly added [OpenXR support](#openXR-support) for VR viewing. Please come back soon, we will be adding other features, building among others on recent 3DGS followup papers.
+We have limited resources for maintaining and updating the code. However, we have added a few new features since the original release that are inspired by some of the excellent work many other researchers have been doing on 3DGS. We will be adding other features within the ability of our resources. 
+
+Update of Sept. 3rd 2024:
+We placed the new features in the `dev` branch until we have finished resolving the following issues:
+[#955](https://github.com/graphdeco-inria/gaussian-splatting/issues/955), [#962](https://github.com/graphdeco-inria/gaussian-splatting/issues/962).  
+
+
+Update of August 2024:
+We have added/corrected the following features: [Depth regularization](#depth-regularization) for training, [anti aliasing](#anti-aliasing) and [exposure compensation](#exposure-compensation). We have enhanced the SIBR real time viewer by correcting bugs and adding features in the [Top View](#sibr:-top-view) that allows visualization of input and user cameras. Please note that it is currently not possible to use depth regularization with the training speed acceleration since they use different rasterizer versions.
+
+Update of Spring 2024:
+Orange Labs has kindly added [OpenXR support](#openXR-support) for VR viewing. 
+
 
 ## Optimizer
 
