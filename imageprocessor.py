@@ -4,6 +4,7 @@
 # Detect Compressed File Type (.zip) then extract to another directory
 
 import os
+import cv2
 import patoolib
 import shutil
 import tkinter as tk
@@ -12,13 +13,22 @@ from PIL import Image
 from pillow_heif import register_heif_opener
 
 # For selecting compressed files
-def open_compressed_file_selection():
+def open_file_selection():
     file_path = fd.askopenfilename(
-        title="Select a compressed file",
-        filetypes=[("Compressed files", "*.zip *.tar *.gz *.rar *.7z *.bz2 *.xz")]
+        title="Select a compressed file or video",
+        filetypes=[
+            ("Compressed files", "*.zip *.tar *.gz *.rar *.7z *.bz2 *.xz"),
+            ("Video files", "*.mp4 *.avi *.mov *.mkv *.flv *.wmv *.webm *.mpg *.mpeg *.3gp")
+        ]
     )
+    # check for video or zip file
     if file_path:
-        extract_file(file_path)
+        if file_path.lower().endswith(('.zip', '.tar', '.gz', '.rar', '.7z', '.bz2', '.xz')):
+            extract_file(file_path)
+        elif file_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv', '.webm', '.mpg', '.mpeg', '.3gp')):
+            convert_video_to_jpg(file_path)
+        else:
+            fd.showerror("Error", "Unsupported file type selected")
         
 # For directory creation
 def create_clean_dir(dir):
@@ -59,4 +69,27 @@ def convert_images_to_jpg(directory):
         except Exception as e:
             print(f"Failed to convert {photo}. Error: {e}")
 
-open_compressed_file_selection()
+# For Video Conversion to images
+def convert_video_to_jpg(directory):
+    video = cv2.VideoCapture(directory)
+    try:
+        if not os.path.exists("input"):
+            os.makedirs("input")
+    except OSError:
+        print("Error: Creating input directory")
+
+    currentframe = 0
+    while(True):
+        ret,frame = video.read()
+        
+        if ret:
+            name = "./input/" + str(currentframe) + ".jpg"
+            print("Creating..."+name)
+            
+            cv2.imwrite(name, frame)
+            currentframe+=1
+        else:
+            break
+    video.release()
+    video.destroyAllWindows()
+open_file_selection()

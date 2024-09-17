@@ -11,8 +11,8 @@ import subprocess
 import fabric
 
 env_name = "gaussian_splatting"
-training_mode = "cuda"
-local_mode = False
+training_mode = "cpu"
+local_mode = True
 
 # This function will handle file uploading
 def upload_directory(connection, local_dir, remote_dir):
@@ -210,9 +210,9 @@ def run_visualizer():
 
 # Run all scripts
 def autorun():
-    #run_imageprocessor()
-    #run_convert_script()
+    run_imageprocessor()
+    run_convert_script()
     run_train_script()
-    #run_visualizer()
+    run_visualizer()
 
 autorun()

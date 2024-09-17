@@ -17,7 +17,8 @@ images
 sparse
 output
 stereo
-COLMAP-3.9.1-windows-cuda
+colmap*
+COLMAP*
 SIBR_viewers
 *.zip
 *.rar
