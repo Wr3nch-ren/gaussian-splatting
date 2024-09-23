@@ -18,3 +18,4 @@ dependencies:
     - pillow-heif
     - patool
     - fabric
+    - opencv-python
