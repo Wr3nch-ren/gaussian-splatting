@@ -45,7 +45,7 @@ RUN rm Miniconda3-latest-Linux-x86_64.sh
 ENV PATH="/opt/conda/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 
 # Get this repository inside the container
-RUN git clone https://github.com/Wr3nch-ren/gaussian-splatting.git --recursive .
+RUN git clone https://github.com/Wr3nch-ren/gaussian-splatting.git --recursive
 
 # Change the directory
 WORKDIR /app/gaussian-splatting
