@@ -15,3 +15,7 @@ dependencies:
   - pip:
     - submodules/diff-gaussian-rasterization
     - submodules/simple-knn
+    - pillow-heif
+    - patool
+    - fabric
+    - opencv-python
