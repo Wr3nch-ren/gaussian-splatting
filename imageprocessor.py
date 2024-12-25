@@ -8,6 +8,7 @@ import cv2
 import patoolib
 import shutil
 import tkinter as tk
+from tkinter import messagebox as mb
 from tkinter import filedialog as fd
 from PIL import Image
 from pillow_heif import register_heif_opener
@@ -28,7 +29,7 @@ def open_file_selection():
         elif file_path.lower().endswith(('.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv', '.webm', '.mpg', '.mpeg', '.3gp')):
             convert_video_to_jpg(file_path)
         else:
-            fd.showerror("Error", "Unsupported file type selected")
+            mb.showerror("Error", "Unsupported file type selected")
         
 # For directory creation
 def create_clean_dir(dir):
@@ -44,9 +45,9 @@ def extract_file(file_path):
         # Extract the archive file using patoolib
         patoolib.extract_archive(file_path, outdir=extracted_dir)
         convert_images_to_jpg(extracted_dir)
-        fd.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
+        mb.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
     except Exception as e:
-        fd.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
+        mb.showerror("Error", f"Failed to extract {file_path}. Error: {e}")
 
 # For Image conversion
 def convert_images_to_jpg(directory):
@@ -91,5 +92,5 @@ def convert_video_to_jpg(directory):
         else:
             break
     video.release()
-    video.destroyAllWindows()
+    cv2.destroyAllWindows()
 open_file_selection()
