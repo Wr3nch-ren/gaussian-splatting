@@ -128,7 +128,7 @@ def run_in_conda_env(env_name, filename):
 def run_convert_script():
     if is_conda_environment_active(env_name):
         command = [sys.executable, "convert.py", "-s", "."]
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
     else:
         run_in_conda_env(env_name, "convert.py")
 
@@ -183,7 +183,7 @@ def run_train_script():
                 command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cpu"]
             else:
                 command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w"]
-            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
         else:
             run_in_conda_env(env_name, "train.py")
 
@@ -199,7 +199,7 @@ def run_train_script():
 # Web Visualizer is now on hold
 def run_visualizer():
     command = ["SIBR_gaussianViewer_app", "-m", "./output/"]
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
     stdout, stderr = process.communicate()
     if process.returncode == 0:
         print("Command executed successfully:")

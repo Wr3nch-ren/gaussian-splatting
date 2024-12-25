@@ -52,23 +52,34 @@ def extract_file(file_path):
 # For Image conversion
 def convert_images_to_jpg(directory):
     register_heif_opener()
-    image_formats = ('.heic', '.png', '.bmp', '.gif', '.tiff', '.webp')  # Add more formats if needed
-    image_files = [photo for photo in os.listdir(directory) if photo.lower().endswith(image_formats)]
-    print(f"Found image files: {image_files}")
+    image_formats = ('.heic', '.png', '.bmp', '.gif', '.tiff', '.webp', '.jpeg', '.jpg')  # Add more formats if needed
     
-    for photo in image_files:
+    for photo in os.listdir(directory):
         full_photo_path = os.path.join(directory, photo)
-        try:
-            temp_img = Image.open(full_photo_path)
-            jpg_photo = os.path.join(directory, os.path.splitext(photo)[0] + ".jpg")
-            temp_img.convert("RGB").save(jpg_photo, "JPEG")
-            print(f"Converted {photo} to {jpg_photo}")
-            
-            # Delete the original file
-            os.remove(full_photo_path)
-            print(f"Deleted original file {photo}")
-        except Exception as e:
-            print(f"Failed to convert {photo}. Error: {e}")
+
+        # Skip non-files and non-supported formats
+        if not os.path.isfile(full_photo_path):
+            print(f"{full_photo_path} is not supported.")
+            continue
+
+        # Check file extension
+        if photo.lower().endswith('.jpg'):
+            print(f"{photo} is already a JPG. Skipping.")
+            continue
+
+        # Process non-JPG images
+        if photo.lower().endswith(image_formats):
+            try:
+                temp_img = Image.open(full_photo_path)
+                jpg_photo = os.path.join(directory, os.path.splitext(photo)[0] + ".jpg")
+                temp_img.convert("RGB").save(jpg_photo, "JPEG")
+                print(f"Converted {photo} to {jpg_photo}")
+
+                # Delete the original file
+                os.remove(full_photo_path)
+                print(f"Deleted original file {photo}")
+            except Exception as e:
+                print(f"Failed to convert {photo}. Error: {e}")
 
 # For Video Conversion to images
 def convert_video_to_jpg(directory):
