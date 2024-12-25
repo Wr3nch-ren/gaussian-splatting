@@ -118,10 +118,10 @@ def run_in_conda_env(env_name, filename):
     stdout, stderr = process.communicate()
 
     if process.returncode == 0:
-        print("Command executed successfully:")
+        print("Command executed successfully")
         print(stdout.decode())
     else:
-        print("Error executing command:")
+        print("Error executing command")
         print(stderr.decode())
 
 # This function will run in local
@@ -134,11 +134,11 @@ def run_convert_script():
 
     stdout, stderr = process.communicate()
     if process.returncode == 0:
-        print("Command executed successfully:")
-        print(stdout.decode())
+        print("Command executed successfully")
+        # print(stdout.decode())
     else:
-        print("Error executing command:")
-        print(stderr.decode())
+        print("Error executing command")
+        # print(stderr.decode())
 
 # This function will run in cluster
 def run_train_script():
@@ -189,11 +189,11 @@ def run_train_script():
 
         stdout, stderr = process.communicate()
         if process.returncode == 0:
-            print("Command executed successfully:")
-            print(stdout.decode())
+            print("Command executed successfully")
+            # print(stdout.decode())
         else:
-            print("Error executing command:")
-            print(stderr.decode())
+            print("Error executing command")
+            # print(stderr.decode())
 
 # This function will run in local
 # Web Visualizer is now on hold
@@ -202,11 +202,11 @@ def run_visualizer():
     process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
     stdout, stderr = process.communicate()
     if process.returncode == 0:
-        print("Command executed successfully:")
-        print(stdout.decode())
+        print("Command executed successfully")
+        # print(stdout.decode())
     else:
-        print("Error executing command:")
-        print(stderr.decode())
+        print("Error executing command")
+        # print(stderr.decode())
 
 # Run all scripts
 def autorun():
