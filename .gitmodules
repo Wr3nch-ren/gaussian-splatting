@@ -7,3 +7,9 @@
 [submodule "SIBR_viewers"]
 	path = SIBR_viewers
 	url = https://gitlab.inria.fr/sibr/sibr_core.git
+[submodule "point-cloud-tools"]
+	path = point-cloud-tools
+	url = https://github.com/SpectacularAI/point-cloud-tools
+[submodule "splat"]
+	path = splat
+	url = https://github.com/antimatter15/splat.git
