@@ -17,3 +17,7 @@ dependencies:
     - patool
     - fabric
     - opencv-python
+    - joblib
+    - submodules/diff-gaussian-rasterization
+    - submodules/simple-knn
+    - submodules/fused-ssim
