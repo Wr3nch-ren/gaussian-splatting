@@ -13,5 +13,13 @@ dependencies:
   - torchvision=0.13.1
   - tqdm
   - pip:
+    - pillow-heif
+    - patool
+    - fabric
+    - opencv-python
+    - joblib
     - submodules/diff-gaussian-rasterization
     - submodules/simple-knn
+    - submodules/fused-ssim
+    - opencv-python
+    - joblib

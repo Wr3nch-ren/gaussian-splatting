@@ -36,6 +36,15 @@ def create_clean_dir(dir):
     if os.path.exists(dir):
         shutil.rmtree(dir)
     os.makedirs(dir)
+    
+# Function to move files from subdirectories to the main directory
+def move_files_to_main_directory(main_directory):
+    for root, dirs, files in os.walk(main_directory, topdown=False):
+        for name in files:
+            file_path = os.path.join(root, name)
+            shutil.move(file_path, main_directory)
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
 
 # For Extract file
 def extract_file(file_path):
@@ -44,6 +53,7 @@ def extract_file(file_path):
     try:
         # Extract the archive file using patoolib
         patoolib.extract_archive(file_path, outdir=extracted_dir)
+        move_files_to_main_directory(extracted_dir)
         convert_images_to_jpg(extracted_dir)
         mb.showinfo("Success", f"Extracted {file_path} to {extracted_dir}")
     except Exception as e:

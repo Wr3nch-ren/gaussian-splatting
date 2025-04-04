@@ -1,86 +1,60 @@
-# syntax=docker/dockerfile:1
+# Use NVIDIA CUDA base image
+FROM nvidia/cuda:11.8.0-devel-ubuntu20.04
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
+# Set the working directory inside the container
+WORKDIR /app
 
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+# Install required system dependencies and avoid interactive prompts
+RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install wget bzip2 build-essential curl git ninja-build unzip ffmpeg gcc g++ gcc-10 g++-10 libgl-dev mono-mcs cmake
 
-################################################################################
-# Pick a base image to serve as the foundation for the other build stages in
-# this file.
-#
-# For illustrative purposes, the following FROM command
-# is using the alpine image (see https://hub.docker.com/_/alpine).
-# By specifying the "latest" tag, it will also use whatever happens to be the
-# most recent version of that image when you build your Dockerfile.
-# If reproducability is important, consider using a versioned tag
-# (e.g., alpine:3.17.2) or SHA (e.g., alpine@sha256:c41ab5c992deb4fe7e5da09f67a8804a46bd0592bfdf0b1847dde0e0889d2bff).
-# FROM alpine:lastest as base
+# Install Miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+RUN bash /tmp/miniconda.sh -b -p /opt/conda
 
-# Changed to use nvidia's package
-FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04 as base
+# Add Conda to the PATH environment variable
+ENV PATH="/opt/conda/bin:$PATH"
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+ENV CUDA_HOME=/usr/local/cuda
 
-################################################################################
-# Create a stage for building/compiling the application.
-#
-# The following commands will leverage the "base" stage above to generate
-# a "hello world" script and make it executable, but for a real application, you
-# would issue a RUN command for your application's build process to generate the
-# executable. For language-specific examples, take a look at the Dockerfiles in
-# the Awesome Compose repository: https://github.com/docker/awesome-compose
-# FROM base as build
-# RUN echo -e '#!/bin/sh\n\
-# echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.'\
-# > /bin/hello.sh
-# RUN chmod +x /bin/hello.sh
+# Copy the environment file to the working directory
+COPY dockerenv.yml .
+COPY environment.yml .
+COPY ./ ./app/
+COPY submodules /app/submodules
 
-# Download Miniconda3 and git
-RUN apt-get update && apt-get -y upgrade && apt-get install -y git wget unzip bzip2
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
-RUN rm Miniconda3-latest-Linux-x86_64.sh
+ENV TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5;8.0;8.6+PTX"
 
-# Set PATH
-ENV PATH="/opt/conda/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+# Create the conda environment based on the environment.yml
+RUN conda update -n base conda
+RUN conda install -n base conda-libmamba-solver
+RUN conda config --set solver libmamba
 
-# Get this repository inside the container
-RUN git clone https://github.com/Wr3nch-ren/gaussian-splatting.git --recursive
+RUN conda env create -f dockerenv.yml
 
-# Change the directory
-WORKDIR /app/gaussian-splatting
+#RUN conda env create -f environment.yml
 
-# Setup Gaussian Splatting Environment
-RUN conda env create -f extra.yml
+RUN conda init bash
+SHELL ["conda", "run", "-n", "gaussian_splatting", "/bin/bash", "-c"]
+ENV PATH=/opt/conda/envs/gaussian_splatting/bin:$PATH
+RUN export PATH=/usr/local/cuda:$PATH
+RUN /bin/bash -c "source activate gaussian_splatting"
 
-RUN conda activate gaussian-splatting
+# Verfiy CUDA inside docker container
+RUN nvcc --version
 
-################################################################################
-# Create a final stage for running your application.
-#
-# The following commands copy the output from the "build" stage above and tell
-# the container runtime to execute it when the image is run. Ideally this stage
-# contains the minimal runtime dependencies for the application as to produce
-# the smallest image possible. This often means using a different and smaller
-# image than the one used for building the application, but for illustrative
-# purposes the "base" image is used here.
-FROM base AS final
+# Install Python packages
+RUN pip install --upgrade torch
+RUN pip install --verbose submodules/diff-gaussian-rasterization
+RUN pip install --verbose submodules/simple-knn
 
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
-# ARG UID=10001
-# RUN adduser \
-#     --disabled-password \
-#     --gecos "" \
-#     --home "/nonexistent" \
-#     --shell "/sbin/nologin" \
-#     --no-create-home \
-#     --uid "${UID}" \
-#     appuser
-# USER appuser
+# Uncomment if using newer version code
+# RUN pip install --verbose submodules/fused-ssim
+# RUN pip install --verbose opencv-python
+# RUN pip install --verbose joblib
 
-# # Copy the executable from the "build" stage.
-# COPY --from=build /bin/hello.sh /bin/
+# Clean up the apt cache and temp conda
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm /tmp/miniconda.sh
 
-# # What the container should run when it is started.
-# ENTRYPOINT [ "/bin/hello.sh" ]
+# Activate conda environment for shell
+CMD ["bash", "-c", "source /opt/conda/etc/profile.d/conda.sh && conda activate gaussian_splatting && exec bash"]

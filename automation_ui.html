@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .menu-separator {
+            margin: 20px 0;
+            border-top: 1px solid #ccc;
+        }
+        .toggle-container {
+            margin: 10px 0;
+        }
+        .toggle-label {
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        // JavaScript functions to handle button clicks and toggle changes
+        function runAutorun() {
+            alert("Running autorun()...");
+            // Call the autorun() function from runner_ui.py
+            // This requires backend integration
+        }
+
+        function runImageProcessor() {
+            alert("Running run_imageprocessor()...");
+            // Call the run_imageprocessor() function from runner_ui.py
+        }
+
+        function runConvertScript() {
+            alert("Running run_convert_script()...");
+            // Call the run_convert_script() function from runner_ui.py
+        }
+
+        function runTrainScript() {
+            alert("Running run_train_script()...");
+            // Call the run_train_script() function from runner_ui.py
+        }
+
+        function runVisualizer() {
+            alert("Running run_visualizer()...");
+            // Call the run_visualizer() function from runner_ui.py
+        }
+
+        function toggleTrainingMode() {
+            const mode = document.getElementById("trainingModeToggle").checked ? "cuda" : "cpu";
+            alert(`Training mode set to: ${mode}`);
+            // Update the training_mode variable in runner_ui.py
+        }
+
+        function toggleVisualizerMode() {
+            const mode = document.getElementById("visualizerToggle").checked ? "web" : "executable";
+            alert(`Visualizer mode set to: ${mode}`);
+            // Update the renderer_mode variable in runner_ui.py
+        }
+
+        function toggleNetworkMode() {
+            const mode = document.getElementById("networkModeToggle").checked ? "server" : "local";
+            alert(`Network mode set to: ${mode}`);
+            // Update the local_mode variable in runner_ui.py
+        }
+    </script>
+</head>
+<body>
+    <h1>Automation UI</h1>
+
+    <!-- Button to run autorun() -->
+    <button onclick="runAutorun()">Run All (autorun)</button>
+
+    <div class="menu-separator"></div>
+
+    <!-- Individual buttons for each function -->
+    <button onclick="runImageProcessor()">Select ZIP File (run_imageprocessor)</button>
+    <button onclick="runConvertScript()">Convert Data (run_convert_script)</button>
+    <button onclick="runTrainScript()">Train (run_train_script)</button>
+    <button onclick="runVisualizer()">Run Visualizer (run_visualizer)</button>
+
+    <div class="menu-separator"></div>
+
+    <!-- Toggle sliders -->
+    <div class="toggle-container">
+        <label class="toggle-label" for="trainingModeToggle">Training Mode (CPU/CUDA):</label>
+        <input type="checkbox" id="trainingModeToggle" onchange="toggleTrainingMode()">
+    </div>
+
+    <div class="toggle-container">
+        <label class="toggle-label" for="visualizerToggle">Visualizer (Executable/Web):</label>
+        <input type="checkbox" id="visualizerToggle" onchange="toggleVisualizerMode()">
+    </div>
+
+    <div class="toggle-container">
+        <label class="toggle-label" for="networkModeToggle">Network Mode (Local/Server):</label>
+        <input type="checkbox" id="networkModeToggle" onchange="toggleNetworkMode()">
+    </div>
+</body>
+</html>
