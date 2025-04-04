@@ -150,11 +150,8 @@ body {
     font-size: 14px;
     font-family: "Inria Sans", -apple-system, Roboto, Helvetica, sans-serif;
     font-weight: 400;
-    color: rgba(255, 255, 255, 1);
-    max-width: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    color: rgba(160, 160, 160, 1); /* dimmed by default */
+    transition: color 0.3s ease;
   }
   .toggle-group .toggle-label:first-of-type {
     text-align: left;
@@ -162,6 +159,13 @@ body {
   
   .toggle-group .toggle-label:last-of-type {
     text-align: right;
+  }
+  .toggle-group:has(.toggle-input:not(:checked)) .toggle-label:first-of-type {
+    color: rgba(255, 255, 255, 1); /* active left */
+  }
+  
+  .toggle-group:has(.toggle-input:checked) .toggle-label:last-of-type {
+    color: rgba(255, 255, 255, 1); /* active right */
   }
   
   /* Toggle container */
