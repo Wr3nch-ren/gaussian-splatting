@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Automation UI</title>
+    <link rel="stylesheet" href="AutoUI.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inria+Sans&family=Inter&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="container">
+      <section class="automation-panel">
+        <header class="automation-header">Automation UI</header>
+        <section class="control-panel">
+          <button class="primary-button">Run All</button>
+          <hr class="divider" />
+          <button class="secondary-button">Select ZIP</button>
+          <button class="secondary-button">Convert Data</button>
+          <button class="secondary-button">Train</button>
+          <hr class="divider" />
+          <div class="toggle-group">
+            <span class="toggle-label">CPU</span>
+            <label class="toggle-container">
+              <input type="checkbox" class="toggle-input" />
+              <span class="toggle-slider">
+                <span class="toggle-knob"></span>
+              </span>
+            </label>
+            <span class="toggle-label">Cuda</span>
+          </div>
+          <div class="toggle-group">
+            <span class="toggle-label">Executable</span>
+            <label class="toggle-container">
+              <input type="checkbox" class="toggle-input" />
+              <span class="toggle-slider">
+                <span class="toggle-knob"></span>
+              </span>
+            </label>
+            <span class="toggle-label">Website</span>
+          </div>
+          <div class="toggle-group">
+            <span class="toggle-label">Local</span>
+            <label class="toggle-container">
+              <input type="checkbox" class="toggle-input" />
+              <span class="toggle-slider">
+                <span class="toggle-knob"></span>
+              </span>
+            </label>
+            <span class="toggle-label">Server</span>
+          </div>
+        </section>
+        <button class="primary-button">Run Visualizer</button>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 1);
+    font-family:
+      "Inter",
+      -apple-system,
+      Roboto, 
+      Helvetica,
+      sans-serif;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 310px;
+    padding: 7px 31px 13px;
+    overflow: hidden;
+  }
+  
+  /* Automation panel */
+  .automation-panel {
+    border-radius: 8px;
+    background-color: rgba(217, 217, 217, 1);
+    display: flex;
+    width: 100%;
+    padding: 13px; /* Even padding */
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box; /* Ensures padding doesn't add extra size */
+  }
+  
+  /* Header */
+  .automation-header {
+    color: rgba(0, 36, 129, 1);
+    font-size: 24px;
+    font-family:
+      "Inria Sans",
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-weight: 400;
+  }
+  
+  /* Control panel */
+  .control-panel {
+    border-radius: 8px;
+    background-color: rgba(75, 75, 75, 1);
+    width: 100%;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    margin-top: 10px;
+  }
+  
+  /* Buttons */
+  .primary-button {
+    align-self: stretch;
+    border-radius: 8px;
+    background-color: rgba(44, 44, 44, 1);
+    border-color: rgba(44, 44, 44, 1);
+    border-style: solid;
+    border-width: 1px;
+    min-height: 24px;
+    width: 100%;
+    max-width: none;
+    padding: 4px 12px;
+    gap: 8px;
+    overflow: hidden;
+    font-family:
+      "Inter",
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-size: 16px;
+    color: #f5f5f5;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .secondary-button {
+    align-self: stretch;
+    border-radius: 8px;
+    background-color: rgba(44, 44, 44, 1);
+    border-color: rgba(44, 44, 44, 1);
+    border-style: solid;
+    border-width: 1px;
+    min-height: 14px;
+    width: 100%;
+    max-width: none;
+    padding: 0 12px;
+    gap: 8px;
+    overflow: hidden;
+    font-family:
+      "Inter",
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-size: 12px;
+    color: rgba(245, 245, 245, 1);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .secondary-button:first-of-type {
+    margin-top: 7px;
+  }
+  
+  /* Divider */
+  .divider {
+    border-color: rgba(255, 255, 255, 1);
+    border-style: solid;
+    border-width: 1px;
+    align-self: stretch;
+    margin: 8px 0;
+    height: 1px;
+    width: 100%;
+  }
+  
+  .divider:first-of-type {
+    margin-top: 10px;
+  }
+  
+  /* Toggle groups */
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 240px;
+    margin-top: 12px;
+  }
+  
+  
+  /* Toggle labels */
+  .toggle-label {
+    flex: 1;
+    min-width: 50px;
+    font-size: 14px;
+    font-family: "Inria Sans", -apple-system, Roboto, Helvetica, sans-serif;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  }
+  .toggle-group .toggle-label:first-of-type {
+    text-align: left;
+  }
+  
+  .toggle-group .toggle-label:last-of-type {
+    text-align: right;
+  }
+  
+  /* Toggle container */
+  .toggle-container {
+    border-radius: 100px;
+    background-color: rgba(116, 116, 116, 1);
+    border: 1px solid rgba(146, 146, 146, 1);
+    display: flex;
+    width: 36px;
+    height: 18px;
+    padding: 3px;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Hide the default checkbox */
+  .toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  
+  /* Toggle knob */
+  .toggle-knob {
+    background-color: rgba(217, 217, 217, 1);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    display: block;
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Toggle slider */
+  .toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    border-radius: 100px;
+    background-color: rgba(116, 116, 116, 1);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(146, 146, 146, 1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* When toggled */
+  .toggle-input:checked + .toggle-slider {
+    background-color: lightgreen;
+    border: 1px solid #267c2d;
+  }
+  .toggle-input:checked + .toggle-slider .toggle-knob {
+    transform: translateX(18px); /* Moved farther */
+  }
+  
+  /* Run Visualizer button */
+  .automation-panel > .primary-button {
+    margin-top: 6px;
+  }
+  
