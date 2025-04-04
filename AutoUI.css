@@ -82,6 +82,7 @@ body {
     line-height: 1;
     cursor: pointer;
     text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   
   .secondary-button {
@@ -110,12 +111,19 @@ body {
     margin-top: 4px;
     cursor: pointer;
     text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+
   }
+  .primary-button:active,
+.secondary-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* stronger shadow for visibility */
+}
   
-  .secondary-button:first-of-type {
-    margin-top: 7px;
-  }
-  
+  .primary-button:hover,
+.secondary-button:hover {
+  transform: scale(1.03);
+}
   /* Divider */
   .divider {
     border-color: rgba(255, 255, 255, 1);
