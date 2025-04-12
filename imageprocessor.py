@@ -100,15 +100,19 @@ def convert_video_to_jpg(directory):
     except OSError:
         print("Error: Creating input directory")
 
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_interval = int(fps)  # Interval in seconds
     currentframe = 0
+    saved_frame = 0
     while(True):
         ret,frame = video.read()
         
         if ret:
-            name = "./input/" + str(currentframe) + ".jpg"
-            print("Creating..."+name)
-            
-            cv2.imwrite(name, frame)
+            if currentframe % frame_interval == 0:
+                name = "./input/" + str(currentframe) + ".jpg"
+                print("Creating..."+name)
+                cv2.imwrite(name, frame)
+                saved_frame += 1
             currentframe+=1
         else:
             break

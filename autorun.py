@@ -206,7 +206,7 @@ def run_visualizer():
         command = ["python", 
                    "point-cloud-tools/convert.py", 
                    "./output/point_cloud/iteration_30000/point_cloud.ply",
-                   ".output/point_cloud/iteration_30000.splat"
+                   "./output/iteration_30000.splat"
                    "--ply_input_format=inria"]
         # Due to technical issue, this command will only convert the point cloud to splat
         print("Point cloud is converted to splat, please use the web renderer (./splat/index.html) to visualize the splat")
@@ -226,4 +226,4 @@ def autorun():
     run_train_script()
     run_visualizer()
 
-autorun()
+# autorun()

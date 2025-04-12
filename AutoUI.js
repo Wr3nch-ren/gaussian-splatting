@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const train_device_checkbox = document.getElementById("toggle-train-device");
 
     // Buttons
+    const runAllButton = document.getElementById("run-all-button");
     const selectZipButton = document.getElementById("select-zip-button");
+    const convertDataButton = document.getElementById("convert-data-button");
+    const trainDataButton = document.getElementById("train-data-button");
     const visualizerButton = document.getElementById("visualizer-button");
     const autoUIButton = document.getElementById("auto-ui-button");
 
@@ -17,25 +20,199 @@ document.addEventListener("DOMContentLoaded", function () {
         return checkbox && checkbox.checked ? "ON" : "OFF";
     }
 
-    // Add event listener for the "Select Zip" button
+    if (runAllButton) {
+        runAllButton.addEventListener("click", function () {
+            const socket = new WebSocket("ws://localhost:7444")
+            socket.onopen = function () {
+                console.log("WebSocket connection established.");
+                const checkMode = checkBoxState(train_mode_checkbox);
+                const localDevice = checkBoxState(train_device_checkbox);
+                const visualizer = checkBoxState(visualizer_checkbox);
+                if(checkMode === "OFF") {
+                    checkMode = "cpu";
+                } else {
+                    checkMode = "cuda";
+                }
+                if(localDevice === "OFF") {
+                    localDevice = "true";
+                } else {
+                    localDevice = "false";
+                }
+                if(visualizer === "OFF") {
+                    visualizer = "executable";
+                } else {
+                    visualizer = "web";
+                }
+                const request = {
+                    action : "run_all",
+                    training_mode : checkMode,
+                    local_mode : localDevice,
+                    renderer_mode : visualizer
+                }
+                socket.send(JSON.stringify(request)); // Send the request to the server
+            };
+            socket.onmessage = function (event) {
+                console.log("Message from server:", event.data);
+                // Handle the response from the server if needed
+            };
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            setTimeout(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.close(1000, "Closing connection after 5 seconds.");
+                }
+            }, 5000);
+        });
+    }
+
+    // Select Zip button event listener
     if (selectZipButton) {
         selectZipButton.addEventListener("click", function () {
             const socket = new WebSocket("ws://localhost:7444")
-            // Call imageprocessor.py to handle the zip file via JSON request
-            
-        })
+            socket.onopen = function () {
+                console.log("WebSocket connection established.");
+                const request = {
+                    action : "select_zip"
+                }
+                socket.send(JSON.stringify(request)); // Send the request to the server
+            };
+            socket.onmessage = function (event) {
+                console.log("Message from server:", event.data);
+                // Handle the response from the server if needed
+            };
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            setTimeout(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.close(1000, "Closing connection after 5 seconds.");
+                }
+            }, 5000);
+        });
     } else {
-        
+        console.error("Select Zip button not found in the DOM.");
+    }
+
+    // Convert Data button event listener
+    if (convertDataButton) {
+        convertDataButton.addEventListener("click", function () {
+            const socket = new WebSocket("ws://localhost:7444")
+            socket.onopen = function () {
+                console.log("WebSocket connection established.");
+                const request = {
+                    action : "convert_data",
+                }
+                socket.send(JSON.stringify(request)); // Send the request to the server
+            };
+            socket.onmessage = function (event) {
+                console.log("Message from server:", event.data);
+                // Handle the response from the server if needed
+            };
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            setTimeout(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.close(1000, "Closing connection after 5 seconds.");
+                }
+            }, 5000);
+        });
+    } else {
+        console.error("Convert Data button not found in the DOM.");
+    }
+
+    // Train Data button event listener
+    if (trainDataButton) {
+        trainDataButton.addEventListener("click", function () {
+            const socket = new WebSocket("ws://localhost:7444")
+            socket.onopen = function () {
+                console.log("WebSocket connection established.");
+                const trainingMode = checkBoxState(train_mode_checkbox);
+                const localMode = checkBoxState(train_device_checkbox);
+                if(trainingMode === "OFF") {
+                    trainingMode = "cpu";
+                } else {
+                    trainingMode = "cuda";
+                }
+                if(localMode === "OFF") {
+                    localMode = "true";
+                } else {
+                    localMode = "false";
+                }
+                const request = {
+                    action : "train_data",
+                    training_mode : checkMode,
+                    local_mode : localMode
+                }
+                socket.send(JSON.stringify(request)); // Send the request to the server
+            };
+            socket.onmessage = function (event) {
+                console.log("Message from server:", event.data);
+                // Handle the response from the server if needed
+            };
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            setTimeout(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.close(1000, "Closing connection after 5 seconds.");
+                }
+            }, 5000);
+        });
     }
 
     // Add event listener for the "Run Visualizer" button
     if (visualizerButton) {
         visualizerButton.addEventListener("click", function () {
-            if (checkBoxState(visualizer_checkbox) === "ON") {
-                goToPage("visualizer"); // Navigate to the visualizer page
-            } else {
-                console.error("Visualizer checkbox is OFF. Cannot proceed.");
-            }
+            // Call the function to run the executable visualizer via WebSocket
+            const socket = new WebSocket("ws://localhost:7444")
+            socket.onopen = function () {
+                console.log("WebSocket connection established.");
+                const visualizerMode = checkBoxState(visualizer_checkbox);
+                if(visualizerMode === "OFF") {
+                    visualizerMode = "executable";
+                } else {
+                    visualizerMode = "web";
+                }
+                const request = {
+                    action : "run_visualizer",
+                    renderer_mode : visualizerMode
+                }
+                socket.send(JSON.stringify(request)); // Send the request to the server
+            };
+            socket.onmessage = function (event) {
+                console.log("Message from server:", event.data);
+                // Handle the response from the server if needed
+            };
+            socket.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+            socket.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+
+            setTimeout(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.close(1000, "Closing connection after 5 seconds.");
+                }
+            }, 5000);
         });
     } else {
         console.error("Visualizer button not found in the DOM.");
