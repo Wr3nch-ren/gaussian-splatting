@@ -5,10 +5,11 @@ rem Activate the environment
 call conda activate gaussian_splatting
 
 rem Run python script
+python ws_server.py
 python .\point-cloud-tools\convert.py .\output\point_cloud\iteration_30000\point_cloud.ply .\output\iteration_30000.splat --ply_input_format=inria
 
 rem Run website
-.\splat\index.html
+.\AutoUI.html
 
 rem Open explorer
 explorer .\output\
