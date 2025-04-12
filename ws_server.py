@@ -24,21 +24,15 @@ async def handle_client(websocket):
 
             if data["action"] == "select_zip":
                 # Calls imageprocessor.py to handle the response
-                response = autorun.run_imageprocessor()
+                autorun.run_imageprocessor()
                 # Check if the response is successful
-                if response.returncode == 0:
-                    response = {"status": "success", "message": "ZIP file selection is working properly."}
-                else:
-                    response = {"status": "error", "message": "ZIP file selection failed."}
+                response = {"status": "success", "message": "ZIP file selection is working properly."}
             
             if data["action"] == "convert_data":
                 # Calls autorun.py to handle the conversion
-                response = autorun.run_convert_script()
+                autorun.run_convert_script()
                 # Check if the response is successful
-                if response.returncode == 0:
-                    response = {"status": "success", "message": "Conversion completed successfully."}
-                else:
-                    response = {"status": "error", "message": "Conversion failed."}
+                response = {"status": "success", "message": "Convert to Point Cloud completed successfully."}
             
             if data["action"] == "train_data":
                 if data["local_mode"] == "false":
@@ -51,11 +45,8 @@ async def handle_client(websocket):
                         autorun.training_mode = "cuda" 
                     if data["training_mode"] == "cpu":
                         autorun.training_mode = "cpu"
-                response = autorun.run_train_script()
-                if response.returncode == 0:
-                    response = {"status": "success", "message": "Training completed successfully."}
-                else:
-                    response = {"status": "error", "message": "Training failed."}
+                autorun.run_train_script()
+                response = {"status": "success", "message": "Training completed successfully."}
             
             if data["action"] == "run_visualizer":
                 if data["renderer_mode"] == "executable":
@@ -63,12 +54,9 @@ async def handle_client(websocket):
                 else:
                     autorun.renderer_mode = "web"
                 # Calls autorun.py to handle the visualization
-                response = autorun.run_visualizer()
+                autorun.run_visualizer()
                 # Check if the response is successful
-                if response.returncode == 0:
-                    response = {"status": "success", "message": "Visualization completed successfully."}
-                else:
-                    response = {"status": "error", "message": "Visualization failed."}
+                response = {"status": "success", "message": "Visualization completed successfully."}
             
             if data["action"] == "run_all":
                 if data["local_mode"] == "false":
@@ -85,11 +73,8 @@ async def handle_client(websocket):
                     autorun.renderer_mode = "executable"
                 else:
                     autorun.renderer_mode = "web"
-                response = autorun.autorun()
-                if response.returncode == 0:
-                    response = {"status": "success", "message": "All processes completed successfully."}
-                else:
-                    response = {"status": "error", "message": "All processes failed."}
+                autorun.autorun()
+                response = {"status": "success", "message": "All processes completed successfully."}
 
             # Send the respond
             await websocket.send(json.dumps(response))

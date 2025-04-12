@@ -25,9 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const socket = new WebSocket("ws://localhost:7444")
             socket.onopen = function () {
                 console.log("WebSocket connection established.");
-                const checkMode = checkBoxState(train_mode_checkbox);
-                const localDevice = checkBoxState(train_device_checkbox);
-                const visualizer = checkBoxState(visualizer_checkbox);
+                let checkMode = checkBoxState(train_mode_checkbox);
+                let localDevice = checkBoxState(train_device_checkbox);
+                let visualizer = checkBoxState(visualizer_checkbox);
                 if(checkMode === "OFF") {
                     checkMode = "cpu";
                 } else {
@@ -140,8 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const socket = new WebSocket("ws://localhost:7444")
             socket.onopen = function () {
                 console.log("WebSocket connection established.");
-                const trainingMode = checkBoxState(train_mode_checkbox);
-                const localMode = checkBoxState(train_device_checkbox);
+                let trainingMode = checkBoxState(train_mode_checkbox);
+                let localMode = checkBoxState(train_device_checkbox);
                 if(trainingMode === "OFF") {
                     trainingMode = "cpu";
                 } else {
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const socket = new WebSocket("ws://localhost:7444")
             socket.onopen = function () {
                 console.log("WebSocket connection established.");
-                const visualizerMode = checkBoxState(visualizer_checkbox);
+                let visualizerMode = checkBoxState(visualizer_checkbox);
                 if(visualizerMode === "OFF") {
                     visualizerMode = "executable";
                 } else {
