@@ -239,7 +239,7 @@ body {
     border: 1px solid #267c2d;
   }
   .toggle-input:checked + .toggle-slider .toggle-knob {
-    transform: translateX(20px);
+    transform: translateX(28px);
   }
 
 
