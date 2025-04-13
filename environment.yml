@@ -24,3 +24,4 @@ dependencies:
     - opencv-python
     - joblib
     - websockets
+    - flask

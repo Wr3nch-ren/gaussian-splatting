@@ -4,13 +4,8 @@ call C:\Users\prayh\miniconda3\Scripts\activate.bat
 rem Activate the environment
 call conda activate gaussian_splatting
 
-rem python .\point-cloud-tools\convert.py .\output\point_cloud\iteration_30000\point_cloud.ply .\output\iteration_30000.splat --ply_input_format=inria
+rem Run html server and website
+start "" /B python html_server.py
 
-rem Run website
-.\AutoUI.html
-
-rem Open explorer
-explorer .\output\
-
-rem Run python script
-python ws_server.py
+rem Run websocket server
+start "" /B python ws_server.py

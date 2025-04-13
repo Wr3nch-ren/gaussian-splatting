@@ -1,7 +1,7 @@
 function goToPage(page) {
     const pages = {
-        home: "./AutoUI.html",
-        visualizer: "./splat/index.html",
+        home: "../AutoUI.html",
+        visualizer: "../splat/index.html",
     };
 
     const pageUrl = pages[page];
