@@ -13,6 +13,11 @@ def main():
 def visualizer():
     return send_from_directory("splat", "index.html")
 
+@app.route("/output/<path:filename>")
+def serve_output_files(filename):
+    # Serve files from the "output" directory
+    return send_from_directory("output", filename)
+
 @app.route("/<path:filename>")
 def serve_static_files(filename):
     if filename.endswith(".js"):
