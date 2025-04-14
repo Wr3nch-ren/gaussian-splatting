@@ -51,12 +51,17 @@ async def handle_client(websocket):
             if data["action"] == "run_visualizer":
                 if data["renderer_mode"] == "executable":
                     autorun.renderer_mode = "executable"
+                    autorun.run_visualizer()
+                    response = {"status": "success", "message": "Opening SIBR_Gaussian_Viewer as executable visualizer."}
                 else:
+                    # web renderer mode will redirect to the visualizer page
                     autorun.renderer_mode = "web"
-                # Calls autorun.py to handle the visualization
-                autorun.run_visualizer()
-                # Check if the response is successful
-                response = {"status": "success", "message": "Visualization completed successfully."}
+                    autorun.run_visualizer()
+                    response = {
+                        "status": "success",
+                        "message": "Web Visualization Request Received, Opening...",
+                        "redirect_url": "/visualizer"  # URL to redirect the client
+                    }
             
             if data["action"] == "run_all":
                 if data["local_mode"] == "false":
@@ -74,7 +79,14 @@ async def handle_client(websocket):
                 else:
                     autorun.renderer_mode = "web"
                 autorun.autorun()
-                response = {"status": "success", "message": "All processes completed successfully."}
+                if autorun.renderer_mode == "web":
+                    response = {
+                        "status": "success",
+                        "message": "All processes completed with Web Visualization Request Received, Opening...",
+                        "redirect_url": "/visualizer"  # URL to redirect the client
+                    }
+                else:
+                    response = {"status": "success", "message": "All processes completed successfully."}
 
             # Send the respond
             await websocket.send(json.dumps(response))

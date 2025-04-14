@@ -52,8 +52,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 socket.send(JSON.stringify(request)); // Send the request to the server
             };
             socket.onmessage = function (event) {
-                console.log("Message from server:", event.data);
-                // Handle the response from the server if needed
+                const response = JSON.parse(event.data);
+                console.log("Response from server:", response);
+
+                if (response.status === "success" && response.redirect_url) {
+                    // Redirect the browser to the specified URL
+                    window.location.href = response.redirect_url;
+                } else {
+                    console.log(response.message);
+                }
             };
             socket.onclose = function () {
                 console.log("WebSocket connection closed.");
@@ -198,8 +205,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 socket.send(JSON.stringify(request)); // Send the request to the server
             };
             socket.onmessage = function (event) {
-                console.log("Message from server:", event.data);
-                // Handle the response from the server if needed
+                const response = JSON.parse(event.data);
+                console.log("Response from server:", response);
+
+                if (response.status === "success" && response.redirect_url) {
+                    // Redirect the browser to the specified URL
+                    window.location.href = response.redirect_url;
+                } else {
+                    console.log(response.message);
+                }
             };
             socket.onclose = function () {
                 console.log("WebSocket connection closed.");

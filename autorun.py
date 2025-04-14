@@ -208,8 +208,7 @@ def run_visualizer():
                    "./output/point_cloud/iteration_30000/point_cloud.ply",
                    "./output/iteration_30000.splat",
                    "--ply_input_format=inria"]
-        # Due to technical issue, this command will only convert the point cloud to splat
-        print("Point cloud is converted to splat, please use the web renderer (./splat/index.html) to visualize the splat")
+        print(".ply to .splat conversion is successful, sending redirect url to web browser via ws_server.py")
     process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
     stdout, stderr = process.communicate()
     if process.returncode == 0:
