@@ -240,4 +240,45 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Auto UI button not found in the DOM.");
     }
+
+    const advancedBtn = document.querySelector('.advanced-toggle-button');
+    const advancedSettings = document.querySelector('.advanced-settings');
+
+    advancedBtn.addEventListener('click', () => {
+      advancedSettings.classList.toggle('hidden');
+      advancedBtn.textContent = advancedSettings.classList.contains('hidden')
+        ? 'Advanced'
+        : 'Hide Advanced';
+    });
+
+    const resolutionSelect = document.getElementById("resolution-select");
+    const customInput = document.getElementById("custom-resolution");
+
+    resolutionSelect.addEventListener("change", () => {
+      if (resolutionSelect.value === "Custom width") {
+        customInput.classList.remove("hidden");
+        customInput.focus();
+      } else {
+        customInput.classList.add("hidden");
+      }
+    });
+
+    const resetBtn = document.getElementById("reset-button");
+
+    resetBtn.addEventListener("click", () => {
+      // Reset selects
+      document.querySelectorAll("select").forEach(select => {
+        select.selectedIndex = 0;
+        select.dispatchEvent(new Event('change'));
+      });
+
+      // Reset text inputs
+      document.querySelectorAll("input[type='text']").forEach(input => {
+        input.value = '';
+        if (input.id === 'custom-resolution') {
+          input.classList.add('hidden');
+        }
+      });
+
+    });
 });
