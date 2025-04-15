@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 const request = {
                     action : "train_data",
-                    training_mode : checkMode,
+                    training_mode : trainingMode,
                     local_mode : localMode
                 }
                 socket.send(JSON.stringify(request)); // Send the request to the server
