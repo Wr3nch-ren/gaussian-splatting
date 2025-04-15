@@ -56,6 +56,86 @@
             <span class="toggle-label right-label">Server</span>
           </div>
         </section>
+        <button class="advanced-toggle-button">Advanced</button>
+        <section class="advanced-settings hidden">
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">Resolution</span>
+              <select class="setting-input" id="resolution-select">
+                <option>Default</option>
+                <option>1</option>
+                <option>2</option>
+                <option>4</option>
+                <option>8</option>
+                <option>Use Original</option>
+                <option>1/2</option>
+                <option>1/4</option>
+                <option>1/8</option>
+                <option>Custom width</option>
+              </select>
+              <input type="text" id="custom-resolution" class="setting-input hidden custom-width" placeholder="Enter value" />
+            </label>
+            <div class="setting-info">Default: Default</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">iterations</span>
+              <input type="text" class="setting-input" placeholder="30000" />
+            </label>
+            <div class="setting-info">Default: 30000</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">save_iterations</span>  <!-- Space-separated iterations at which the training script saves the Gaussian model, 7000 30000 <iterations> by default-->
+              <input type="text" class="setting-input" placeholder="7000" />  <!-- Only use this to set the early save, final save should always equal to number of iterations-->
+            </label>
+            <div class="setting-info">Default: 7000</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">densify_from_iter</span>
+              <input type="text" class="setting-input" placeholder="500" />
+            </label>
+            <div class="setting-info">Default: 500</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">densify_until_iter</span>
+              <input type="text" class="setting-input" placeholder="15000" />
+            </label>
+            <div class="setting-info">Default: 15000</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">sh_degree</span>
+              <select class="setting-input">
+                <option>3</option>
+                <option>2</option>
+                <option>1</option>
+              </select>
+            </label>
+            <div class="setting-info">Default: 3</div>
+          </div>
+
+          <div class="advanced-setting">
+            <label>
+              <span class="setting-label">white_background</span>
+              <select class="setting-input">
+                <option>Off</option>
+                <option>On</option>
+              </select>
+            </label>
+            <div class="setting-info">Default: Off</div>
+          </div>
+
+          <button class="secondary-button" id="reset-button">Reset to Default</button>
+        </section>
+
         <button id="visualizer-button" class="primary-button">Open Visualizer</button>
       </section>
     </main>
