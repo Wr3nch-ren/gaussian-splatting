@@ -44,11 +44,15 @@ async def handle_client(websocket):
                     autorun.training_mode = data["training_mode"] 
                 
                 autorun.resolution = data["resolution"]
-                autorun.save_iteration = data["save_iteration"]
+                autorun.iterations = data["iterations"]
+                autorun.save_iterations = data["save_iterations"]
                 autorun.densify_from_iter = data["densify_from_iter"]
-                autorun.densify_until_iter = data["densify_to_iter"]
+                autorun.densify_until_iter = data["densify_until_iter"]
                 autorun.sh_degree = data["sh_degree"]
-                autorun.white_background = data["white_background"]
+                if data["white_background"] == "On":
+                    autorun.white_background = True
+                else:
+                    autorun.white_background = False
                 
                 autorun.run_train_script()
                 response = {"status": "success", "message": "Training completed successfully."}
@@ -78,11 +82,15 @@ async def handle_client(websocket):
                     autorun.training_mode = data["training_mode"]
                 
                 autorun.resolution = data["resolution"]
-                autorun.save_iteration = data["save_iteration"]
+                autorun.iterations = data["iterations"]
+                autorun.save_iterations = data["save_iterations"]
                 autorun.densify_from_iter = data["densify_from_iter"]
-                autorun.densify_until_iter = data["densify_to_iter"]
+                autorun.densify_until_iter = data["densify_until_iter"]
                 autorun.sh_degree = data["sh_degree"]
-                autorun.white_background = data["white_background"]
+                if data["white_background"] == "On":
+                    autorun.white_background = True
+                else:
+                    autorun.white_background = False
                 
                 if data["renderer_mode"] == "executable":
                     autorun.renderer_mode = "executable"

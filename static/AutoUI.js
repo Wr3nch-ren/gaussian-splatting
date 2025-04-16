@@ -97,6 +97,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 else if(resolution === "1/8") {
                     resolution = "8";
                 }
+                if(iterations === "") {
+                    iterations = "30000";
+                }
+                if(saveIterations === "") {
+                    saveIterations = "7000";
+                }
+                if(densifyFromIter === "") {
+                    densifyFromIter = "500";
+                }
+                if(densifyUntilIter === "") {
+                    densifyUntilIter = "15000";
+                }
+                if(shDegree === "") {
+                    shDegree = "3";
+                }
+                if(whiteBackground === "") {
+                    whiteBackground = "On";
+                }
                 const request = {
                     action : "run_all",
                     training_mode : trainingMode,
@@ -227,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     localMode = "false";
                 }
-                if(resolution === "Use Original") {
+                if(resolution === "Use Original" || resolution === "") {
                     resolution = "1";
                 }
                 else if(resolution === "1/2") {
@@ -238,6 +256,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 else if(resolution === "1/8") {
                     resolution = "8";
+                }
+                if(iterations === "") {
+                    iterations = "30000";
+                }
+                if(saveIterations === "") {
+                    saveIterations = "7000";
+                }
+                if(densifyFromIter === "") {
+                    densifyFromIter = "500";
+                }
+                if(densifyUntilIter === "") {
+                    densifyUntilIter = "15000";
+                }
+                if(shDegree === "") {
+                    shDegree = "3";
+                }
+                if(whiteBackground === "") {
+                    whiteBackground = "On";
                 }
                 const request = {
                     action : "train_data",

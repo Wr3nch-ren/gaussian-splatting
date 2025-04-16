@@ -19,8 +19,8 @@ renderer_mode = "web"
 resolution = 1
 white_background = True
 sh_degree = 3
-final_iteration = 30000
-save_iteration = 7000
+iterations = 30000
+save_iterations = 7000
 densify_from_iter = 500
 densify_until_iter = 15000
 
@@ -109,9 +109,9 @@ def run_in_conda_env(env_name, filename):
     # This function will run in slurm ssh
     if filename == "train.py":
         if white_background:
-            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --final_iteration {final_iteration} --save_iteration {save_iteration} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --iterations {iterations} --save_iterations {save_iterations} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
         else:
-            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --final_iteration {final_iteration} --save_iteration {save_iteration} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --iterations {iterations} --save_iterations {save_iterations} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
         # Initialize conda environment
         ps_script = f'''
         $env:CONDA_DEFAULT_ENV = "{env_name}"
@@ -193,8 +193,8 @@ def run_train_script():
                            "--data_device", training_mode, 
                            "--resolution", str(resolution), 
                            "--sh_degree", str(sh_degree), 
-                           "--final_iteration", str(final_iteration), 
-                           "--save_iteration", str(save_iteration), 
+                           "--iterations", str(iterations), 
+                           "--save_iterations", str(save_iterations), 
                            "--densify_from_iter", str(densify_from_iter), 
                            "--densify_until_iter", str(densify_until_iter)]
             else:
@@ -205,8 +205,8 @@ def run_train_script():
                            "--data_device", training_mode, 
                            "--resolution", str(resolution), 
                            "--sh_degree", str(sh_degree), 
-                           "--final_iteration", str(final_iteration), 
-                           "--save_iteration", str(save_iteration), 
+                           "--iterations", str(iterations), 
+                           "--save_iterations", str(save_iterations), 
                            "--densify_from_iter", str(densify_from_iter), 
                            "--densify_until_iter", str(densify_until_iter)]
             process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
