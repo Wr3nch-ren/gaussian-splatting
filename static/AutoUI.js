@@ -15,6 +15,41 @@ document.addEventListener("DOMContentLoaded", function () {
     const visualizerButton = document.getElementById("visualizer-button");
     const autoUIButton = document.getElementById("auto-ui-button");
 
+    // Advanced settings
+
+    const advancedBtn = document.querySelector('.advanced-toggle-button');
+    const advancedSettings = document.querySelector('.advanced-settings');
+    const resetBtn = document.getElementById("reset-button");
+    const resolutionSelect = document.getElementById("resolution-select");
+    const iterationsText = document.getElementById("iterations-text");
+    const saveIterationsText = document.getElementById("save-iterations-text");
+    const densifyFromIterText = document.getElementById("densify-from-iter-text");
+    const densifyUntilIterText = document.getElementById("densify-until-iter-text");
+    const shDegreeSelect = document.getElementById("sh-degree-select");
+    const whiteBackgroundSelect = document.getElementById("white-background-select");
+
+    // Change button label on click
+    advancedBtn.addEventListener('click', () => {
+      advancedSettings.classList.toggle('hidden');
+      advancedBtn.textContent = advancedSettings.classList.contains('hidden')
+        ? 'Advanced'
+        : 'Hide Advanced';
+    });
+
+    resetBtn.addEventListener("click", () => {
+      // Reset selects
+      document.querySelectorAll("select").forEach(select => {
+        select.selectedIndex = 0;
+        select.dispatchEvent(new Event('change'));
+      });
+
+      // Reset text inputs
+      document.querySelectorAll("input[type='text']").forEach(input => {
+        input.value = '';
+      });
+
+    });
+    
     // Helper function to check checkbox state
     function checkBoxState(checkbox) {
         return checkbox && checkbox.checked ? "ON" : "OFF";
@@ -25,29 +60,55 @@ document.addEventListener("DOMContentLoaded", function () {
             const socket = new WebSocket("ws://localhost:7444")
             socket.onopen = function () {
                 console.log("WebSocket connection established.");
-                let checkMode = checkBoxState(train_mode_checkbox);
-                let localDevice = checkBoxState(train_device_checkbox);
+                let trainingMode = checkBoxState(train_mode_checkbox);
+                let localMode = checkBoxState(train_device_checkbox);
                 let visualizer = checkBoxState(visualizer_checkbox);
-                if(checkMode === "OFF") {
-                    checkMode = "cpu";
+                let resolution = resolutionSelect.value;
+                let iterations = iterationsText.value;
+                let saveIterations = saveIterationsText.value;
+                let densifyFromIter = densifyFromIterText.value;
+                let densifyUntilIter = densifyUntilIterText.value;
+                let shDegree = shDegreeSelect.value;
+                let whiteBackground = whiteBackgroundSelect.value;
+                if(trainingMode === "OFF") {
+                    trainingMode = "cpu";
                 } else {
-                    checkMode = "cuda";
+                    trainingMode = "cuda";
                 }
-                if(localDevice === "OFF") {
-                    localDevice = "true";
+                if(localMode === "OFF") {
+                    localMode = "true";
                 } else {
-                    localDevice = "false";
+                    localMode = "false";
                 }
                 if(visualizer === "OFF") {
                     visualizer = "executable";
                 } else {
                     visualizer = "web";
                 }
+                if(resolution === "Use Original") {
+                    resolution = "1";
+                }
+                else if(resolution === "1/2") {
+                    resolution = "2";
+                }
+                else if(resolution === "1/4") {
+                    resolution = "4";
+                }
+                else if(resolution === "1/8") {
+                    resolution = "8";
+                }
                 const request = {
                     action : "run_all",
-                    training_mode : checkMode,
-                    local_mode : localDevice,
-                    renderer_mode : visualizer
+                    training_mode : trainingMode,
+                    local_mode : localMode,
+                    renderer_mode : visualizer,
+                    resolution : resolution,
+                    iterations : iterations,
+                    save_iterations : saveIterations,
+                    densify_from_iter : densifyFromIter,
+                    densify_until_iter : densifyUntilIter,
+                    sh_degree : shDegree,
+                    white_background : whiteBackground
                 }
                 socket.send(JSON.stringify(request)); // Send the request to the server
             };
@@ -149,6 +210,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("WebSocket connection established.");
                 let trainingMode = checkBoxState(train_mode_checkbox);
                 let localMode = checkBoxState(train_device_checkbox);
+                let resolution = resolutionSelect.value;
+                let iterations = iterationsText.value;
+                let saveIterations = saveIterationsText.value;
+                let densifyFromIter = densifyFromIterText.value;
+                let densifyUntilIter = densifyUntilIterText.value;
+                let shDegree = shDegreeSelect.value;
+                let whiteBackground = whiteBackgroundSelect.value;
                 if(trainingMode === "OFF") {
                     trainingMode = "cpu";
                 } else {
@@ -159,10 +227,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     localMode = "false";
                 }
+                if(resolution === "Use Original") {
+                    resolution = "1";
+                }
+                else if(resolution === "1/2") {
+                    resolution = "2";
+                }
+                else if(resolution === "1/4") {
+                    resolution = "4";
+                }
+                else if(resolution === "1/8") {
+                    resolution = "8";
+                }
                 const request = {
                     action : "train_data",
                     training_mode : trainingMode,
-                    local_mode : localMode
+                    local_mode : localMode,
+                    resolution : resolution,
+                    iterations : iterations,
+                    save_iterations : saveIterations,
+                    densify_from_iter : densifyFromIter,
+                    densify_until_iter : densifyUntilIter,
+                    sh_degree : shDegree,
+                    white_background : whiteBackground
                 }
                 socket.send(JSON.stringify(request)); // Send the request to the server
             };
@@ -241,44 +328,4 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Auto UI button not found in the DOM.");
     }
 
-    const advancedBtn = document.querySelector('.advanced-toggle-button');
-    const advancedSettings = document.querySelector('.advanced-settings');
-
-    advancedBtn.addEventListener('click', () => {
-      advancedSettings.classList.toggle('hidden');
-      advancedBtn.textContent = advancedSettings.classList.contains('hidden')
-        ? 'Advanced'
-        : 'Hide Advanced';
-    });
-
-    const resolutionSelect = document.getElementById("resolution-select");
-    const customInput = document.getElementById("custom-resolution");
-
-    resolutionSelect.addEventListener("change", () => {
-      if (resolutionSelect.value === "Custom width") {
-        customInput.classList.remove("hidden");
-        customInput.focus();
-      } else {
-        customInput.classList.add("hidden");
-      }
-    });
-
-    const resetBtn = document.getElementById("reset-button");
-
-    resetBtn.addEventListener("click", () => {
-      // Reset selects
-      document.querySelectorAll("select").forEach(select => {
-        select.selectedIndex = 0;
-        select.dispatchEvent(new Event('change'));
-      });
-
-      // Reset text inputs
-      document.querySelectorAll("input[type='text']").forEach(input => {
-        input.value = '';
-        if (input.id === 'custom-resolution') {
-          input.classList.add('hidden');
-        }
-      });
-
-    });
 });

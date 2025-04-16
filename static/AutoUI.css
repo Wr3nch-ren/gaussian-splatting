@@ -333,13 +333,6 @@ body {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.custom-width {
-  width: 50%;
-  max-width: 120px;
-}
-
-
-
   
   /* Run Visualizer button */
   .automation-panel > .primary-button {

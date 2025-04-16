@@ -15,6 +15,15 @@ training_mode = "cpu"
 local_mode = True
 renderer_mode = "web"
 
+# Default Advanced settings for training
+resolution = 1
+white_background = True
+sh_degree = 3
+final_iteration = 30000
+save_iteration = 7000
+densify_from_iter = 500
+densify_until_iter = 15000
+
 # This function will handle file uploading
 def upload_directory(connection, local_dir, remote_dir):
     def upload_recursive(local_path, remote_path):
@@ -99,13 +108,10 @@ def run_in_conda_env(env_name, filename):
     
     # This function will run in slurm ssh
     if filename == "train.py":
-        if training_mode == "cuda":
-            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device cuda'
-        if training_mode == "cpu":
-            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device cpu'
+        if white_background:
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --final_iteration {final_iteration} --save_iteration {save_iteration} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
         else:
-            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ -w'
-            
+            command = f'conda activate {env_name} && python {filename} -s . -m ./output/ --data_device {training_mode} --resolution {resolution} --sh_degree {sh_degree} --final_iteration {final_iteration} --save_iteration {save_iteration} --densify_from_iter {densify_from_iter} --densify_until_iter {densify_until_iter}'
         # Initialize conda environment
         ps_script = f'''
         $env:CONDA_DEFAULT_ENV = "{env_name}"
@@ -178,12 +184,31 @@ def run_train_script():
         connection.close()
     else:
         if is_conda_environment_active(env_name):
-            if training_mode == "cuda":
-                command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cuda"]
-            if training_mode == "cpu":
-                command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w", "--data_device", "cpu"]
+            if white_background:
+                command = [sys.executable, 
+                           "train.py", 
+                           "-s", ".", 
+                           "-m", "./output/", 
+                           "-w", 
+                           "--data_device", training_mode, 
+                           "--resolution", str(resolution), 
+                           "--sh_degree", str(sh_degree), 
+                           "--final_iteration", str(final_iteration), 
+                           "--save_iteration", str(save_iteration), 
+                           "--densify_from_iter", str(densify_from_iter), 
+                           "--densify_until_iter", str(densify_until_iter)]
             else:
-                command = [sys.executable, "train.py", "-s", ".", "-m", "./output/", "-w"]
+                command = [sys.executable, 
+                           "train.py", 
+                           "-s", ".", 
+                           "-m", "./output/", 
+                           "--data_device", training_mode, 
+                           "--resolution", str(resolution), 
+                           "--sh_degree", str(sh_degree), 
+                           "--final_iteration", str(final_iteration), 
+                           "--save_iteration", str(save_iteration), 
+                           "--densify_from_iter", str(densify_from_iter), 
+                           "--densify_until_iter", str(densify_until_iter)]
             process = subprocess.Popen(command, stdout=sys.stdout, stderr=sys.stderr)
         else:
             run_in_conda_env(env_name, "train.py")
