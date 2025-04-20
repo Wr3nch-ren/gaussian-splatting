@@ -1,3 +1,9 @@
+# 3D Gaussian Splatting Automation Pipeline
+ โครงงานนี้เป็นโครงงานที่จัดทำเพื่อเป็นส่วนหนึ่งในวิชาโครงงานวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์มหาวิทยาลัยเกษตรศาสตร์
+โดยเป็นส่วนหนึ่งของโครงงานวิจัยระดับปริญญาตรี ที่มุ่งเน้นการทำให้เทคนิค 3D Radiance Field Rendering สามารถใช้งานได้ง่ายผ่านเว็บแอปพลิเคชัน
+โครงงานนี้เป็นการพัฒนาต่อยอดจาก 3D Gaussian Splatting for Real-Time Radiance Field Rendering ซึ่งมีเอกสาร Readme ต้นฉบับด้านล่างนี้
+
+
 # 3D Gaussian Splatting for Real-Time Radiance Field Rendering
 Bernhard Kerbl*, Georgios Kopanas*, Thomas Leimkühler, George Drettakis (* indicates equal contribution)<br>
 | [Webpage](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/) | [Full Paper](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_high.pdf) | [Video](https://youtu.be/T_kXY43VZnk) | [Other GRAPHDECO Publications](http://www-sop.inria.fr/reves/publis/gdindex.php) | [FUNGRAPH project page](https://fungraph.inria.fr) |<br>
