@@ -3,6 +3,9 @@
 โดยเป็นส่วนหนึ่งของโครงงานวิจัยระดับปริญญาตรี ที่มุ่งเน้นการทำให้เทคนิค 3D Radiance Field Rendering สามารถใช้งานได้ง่ายผ่านเว็บแอปพลิเคชัน
 โครงงานนี้เป็นการพัฒนาต่อยอดจาก 3D Gaussian Splatting for Real-Time Radiance Field Rendering ซึ่งมีเอกสาร Readme ต้นฉบับด้านล่างนี้
 
+This Project was develop for use in computer science course at Faculty of Science, Kasetsart University as part of an academic thesis focused on making 3D radiance field rendering more accessible through a web-based application.
+It is built on top of the open-source project **3D Gaussian Splatting for Real-Time Radiance Field Rendering** by [INRIA](https://github.com/graphdeco-inria/gaussian-splatting), which is included below with its original documentation and license.
+
 
 # 3D Gaussian Splatting for Real-Time Radiance Field Rendering
 Bernhard Kerbl*, Georgios Kopanas*, Thomas Leimkühler, George Drettakis (* indicates equal contribution)<br>
