@@ -62,7 +62,7 @@ async def handle_client(websocket):
                     autorun.renderer_mode = "executable"
                     autorun.run_visualizer()
                     response = {"status": "success", "message": "Opening SIBR_Gaussian_Viewer as executable visualizer."}
-                else:
+                elif data["renderer_mode"] == "web":
                     # web renderer mode will redirect to the visualizer page
                     autorun.renderer_mode = "web"
                     autorun.run_visualizer()
